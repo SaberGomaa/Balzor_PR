@@ -1,0 +1,125 @@
+﻿<link href="css/navbar.css" rel="stylesheet" />
+
+@inject NavigationManager NavigationManager
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <button class="navbar-toggler" type="button" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="@NavMenuCssClass navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Existing Navbar Items -->
+            <li class="nav-item">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span aria-hidden="true"></span> Home
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="counter">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="fetchdata">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch Data
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="aboutus">
+                    <span class="oi oi-plus" aria-hidden="true"></span> About Us
+                </NavLink>
+            </li>
+           
+        </ul>
+
+        <!-- Sign In/Sign Out & Language Selection -->
+        <div class="navbar-nav">
+            @if (!isAuthenticated)
+            {
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="login">
+                        <span class="oi oi-account-circle" aria-hidden="true"></span> Sign In
+                    </NavLink>
+                </div>
+            }
+            else
+            {
+                <div class="nav-item">
+                    <NavLink class="nav-link">
+                        <span class="oi oi-account-circle" aria-hidden="true"></span> Profile
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="login" @onclick="OnSignOut">
+                        <span class="oi oi-log-out" aria-hidden="true"></span> Sign Out
+                    </NavLink>
+                </div>
+            }
+
+            <!-- Language Selector -->
+            <div class="nav-item">
+                <button class="nav-link" @onclick="ToggleLanguageSelector">
+                    Language
+                </button>
+                @if (isLanguageSelectorOpen)
+                {
+                    <div class="language-selector">
+                        <button class="dropdown-item" >AR</button>
+                        <button class="dropdown-item" >EN</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<!-- Mobile Menu Overlay -->
+<div class="sidebar-overlay @(isSidebarOpen ? "active" : "")" @onclick="ToggleSidebar"></div>
+
+<!-- Mobile Sidebar -->
+<div class="sidebar @(isSidebarOpen ? "active" : "")">
+    <div class="sidebar-header" @onclick="ToggleSidebar">
+        <img alt="Logo" width="60" />
+        <button class="close-btn" @onclick="ToggleSidebar">
+            <span class="oi oi-x" aria-hidden="true"></span>
+        </button>
+    </div>
+
+    <div class="sidebar-content">
+        <ul>
+            <li><NavLink class="sidebar-btn" href="aboutus">About Us</NavLink></li>
+        </ul>
+
+        <div class="sidebar-lang">
+            <button>AR</button>
+            <button>EN</button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private bool collapseNavMenu = true;
+    private bool isAuthenticated = false;  // Replace with your actual authentication logic
+    private bool isSidebarOpen = false;
+    private bool isLanguageSelectorOpen = false;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : "show";
+
+    private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
+    private void ToggleSidebar() => isSidebarOpen = !isSidebarOpen;
+    private void ToggleLanguageSelector() => isLanguageSelectorOpen = !isLanguageSelectorOpen;
+
+    private void ChangeLanguage(string language)
+    {
+        // Implement language change logic
+    }
+
+    private void OnSignOut()
+    {
+        // Implement sign out logic
+        isAuthenticated = false;
+    }
+}

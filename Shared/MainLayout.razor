@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<PageTitle>Balzor_PR</PageTitle>
+@code {
+    private bool IsLoginPage => NavigationManager.Uri.Contains("/login");
+}
+
+<div class="row  d-flex justify-content-center align-items-center">
+    @if (!IsLoginPage)
+    {
+        <div class="col-12">
+            <NavMenu />
+        </div>
+    }
+    <div class="col-12">
+        <main>
+            @Body
+        </main>
+    </div>
+    @if (!IsLoginPage)
+    {
+        <div class="col-12">
+            <footer />
+        </div>
+    }
+</div>
